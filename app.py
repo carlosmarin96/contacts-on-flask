@@ -84,16 +84,6 @@ def update_contact(id):
         flash ("Invalid format in name or lastname")
         return redirect(url_for('index'))
 
-    phone_email_validate = Contacts.query.all()
-
-    for email_phone in phone_email_validate:
-        if contact_to_update.email == email_phone.email:
-            flash ("Email should be unique")
-            return redirect(url_for('index'))
-        if phone:
-            if contact_to_update.phone == email_phone.phone:
-                flash ("Phone should be unique")
-                return redirect(url_for('index'))
 
     db.session.commit()
 
