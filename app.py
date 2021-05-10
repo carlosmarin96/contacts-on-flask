@@ -18,6 +18,9 @@ class Contacts(db.Model):
 def hasNumber(inputString):
     return any(char.isdigit() for char in inputString)
 
+def hasCharacters(inputNumber):
+    return any(char.isalpha() for char in inputNumber)
+
 
 @app.route('/')
 def index():
@@ -40,6 +43,11 @@ def add_contact():
 
     if ' ' in name or ' ' in lastname or hasNumber(name) or hasNumber(lastname):
         flash ("Invalid format in name or lastname")
+        return redirect(url_for('index'))
+
+    len_number = len(phone)
+    if hasCharacters(phone) or ' ' in phone or len_number > 12 or len_number < 10:
+        flash ("Invalid format in phone")
         return redirect(url_for('index'))
 
     phone_email_validate = Contacts.query.all()
@@ -84,6 +92,10 @@ def update_contact(id):
         flash ("Invalid format in name or lastname")
         return redirect(url_for('index'))
 
+    len_number = len(phone)
+    if hasCharacters(phone) or ' ' in phone or len_number > 12 or len_number < 10:
+        flash ("Invalid format in phone")
+        return redirect(url_for('index'))
 
     db.session.commit()
 
